@@ -11,7 +11,7 @@ This is the simplest way to create an empty object. I believe it is now discoura
 var a = Object.create(null);
 This method creates a new object extending the prototype object passed as a parameter.
 ```
-** Using the bracket's syntactig sugar - Object Literal: **
+**Using the bracket's syntactig sugar - Object Literal:**
 ```javascript
 var b = {};
 This is equivalent to Object.create(null) method, using a null prototype as an argument.
@@ -208,6 +208,7 @@ Things happen – the engine handles them – and waits for more to happen (whil
 > **Stack** - Function calls form a stack of frames.  
 
 > **Heap** - Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+
 > **Queue** - A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
 
 > **Browser or Web APIs** - They are built into your web browser, and are able to expose data from the browser and surrounding computer environment and do useful complex things with it.
