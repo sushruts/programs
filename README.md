@@ -153,6 +153,102 @@ console.log(car2);
 console.log('Constructor : ' + car2.constructor.name); // Vehicle
 console.log(car2.getDetails()); //Error
 ```
+# Promise
+A “producing code” that does something and takes time. For instance, the code loads data over a network.
+A “consuming code” that wants the result of the “producing code” once it’s ready. Many functions may need that result. 
+A promise is a special JavaScript object that links the “producing code” and the “consuming code” together. 
+The “producing code” takes whatever time it needs to produce the promised result, and the “promise” makes that result available to all of the subscribed code when it’s ready.
+```javascript
+let promise = new Promise(function(resolve, reject) {
+  setTimeout(() => resolve("done!"), 1000);
+});
+
+// resolve runs the first function in .then
+promise.then(
+  result => alert(result), // shows "done!" after 1 second
+  error => alert(error) // doesn't run
+);
+
+// Let’s say we want to run many promises to execute in parallel, and wait till all of them are ready.
+let urls = [
+  'https://api.github.com/users/iliakan',
+  'https://api.github.com/users/remy',
+  'https://api.github.com/users/jeresig'
+];
+
+// map every url to the promise fetch(github url)
+let requests = urls.map(url => fetch(url));
+
+// Promise.all waits until all jobs are resolved
+Promise.all(requests)
+  .then(responses => responses.forEach(
+    response => alert(`${response.url}: ${response.status}`)
+  ));
+
+```
+When the executor finishes the job, it should call one of the functions that it gets as arguments:
+`resolve(value)` — to indicate that the job finished successfully:
+sets `state` to `fulfilled`,
+sets `result` to `value`.
+`reject(error)` — to indicate that an error occurred:
+sets `state` to `rejected`,
+sets `result` to `error`.
+
+# Event loop
+In-browser JavaScript execution flow, as well as Node.js, is based on an event loop.
+`Event loop` is a process when the engine sleeps and waits for events. When they occur – handles them and sleeps again.
+Events may come either comes from external sources, like user actions, or just as the end signal of an internal task.
+Examples of events:
+mousemove, a user moved their mouse.
+setTimeout handler is to be called.
+an external <script src="..."> is loaded, ready to be executed.
+a network operation, e.g. fetch is complete.
+Things happen – the engine handles them – and waits for more to happen (while sleeping and consuming close to zero CPU).
+  
+**Stack** 
+Function calls form a stack of frames.  
+**Heap** 
+Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+**Queue** 
+A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
+**Browser or Web APIs**  
+They are built into your web browser, and are able to expose data from the browser and surrounding computer environment and do useful complex things with it.
+
+![Diagram](https://miro.medium.com/max/400/1*RuCaP1t09YaF7wfernuLWA.png)
+  
+```javascript
+function main(){
+  console.log('A');
+  setTimeout(
+    function display(){ console.log('B'); }
+  ,0);
+	console.log('C');
+}
+main();
+//	Output
+//	A
+//	C
+//  B
+``` 
+Here we have the main function which has 2 console.log commands logging ‘A’ and ‘C’ to the console. Sandwiched between them is a setTimeout call which logs ‘B’ to the console with 0ms wait time.
+
+![Diagram](https://miro.medium.com/max/1000/1*64BQlpR00yfDKsXVv9lnIg.png)
+
+The call to the main function is first pushed into the stack (as a frame). Then the browser pushes the first statement in the main function into the stack which is console.log(‘A’). This statement is executed and upon completion that frame is popped out. Alphabet A is displayed in the console.
+
+The next statement (setTimeout() with callback exec() and 0ms wait time) is pushed into the call stack and execution starts. setTimeout function uses a Browser API to delay a callback to the provided function. The frame (with setTimeout) is then popped out once the handover to browser is complete (for the timer).
+
+console.log(‘C’) is pushed to the stack while the timer runs in the browser for the callback to the exec() function. In this particular case, as the delay provided was 0ms, the callback will be added to the message queue as soon as the browser receives it (ideally).
+After the execution of the last statement in the main function, the main() frame is popped out of the call stack, thereby making it empty. For the browser to push any message from the queue to the call stack, the call stack has to be empty first. That is why even though the delay provided in the setTimeout() was 0 seconds, the callback to exec() has to wait till the execution of all the frames in the call stack is complete.
+
+Now the callback exec() is pushed into the call stack and executed. The alphabet C is display on the console. This is the event loop of javascript.
+
+>So the delay parameter in setTimeout(function, delayTime) does not stand for the precise time delay after which the function is executed. It stands for the minimum wait time after which at some point in time the function will be executed.
+
+**Links -** 
+https://medium.com/front-end-weekly/javascript-event-loop-explained-4cd26af121d4
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop
+
 
 # x^n using recursion 
 A function pow(x, n) that raises x to a natural power of n. In other words, multiplies x by itself n times.
