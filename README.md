@@ -205,14 +205,12 @@ an external <script src="..."> is loaded, ready to be executed.
 a network operation, e.g. fetch is complete.
 Things happen – the engine handles them – and waits for more to happen (while sleeping and consuming close to zero CPU).
   
-**Stack** 
-Function calls form a stack of frames.  
-**Heap** 
-Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
-**Queue** 
-A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
-**Browser or Web APIs**  
-They are built into your web browser, and are able to expose data from the browser and surrounding computer environment and do useful complex things with it.
+> **Stack** - Function calls form a stack of frames.  
+
+> **Heap** - Objects are allocated in a heap which is just a name to denote a large mostly unstructured region of memory.
+> **Queue** - A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message.
+
+> **Browser or Web APIs** - They are built into your web browser, and are able to expose data from the browser and surrounding computer environment and do useful complex things with it.
 
 ![Diagram](https://miro.medium.com/max/400/1*RuCaP1t09YaF7wfernuLWA.png)
   
